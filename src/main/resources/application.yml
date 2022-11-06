@@ -1,6 +1,11 @@
+internal-resources:
+  files:
+    - name: data
+      path: ${DATA_FILE_PATH:C:/Hacks/TechLeaders2022/trek3-city_service_tasks_monitoring/projects/small_data_100.csv}
+
 external-resources:
-  google:
-    base-url: https://google.com
+  someapi:
+    base-url: ${EXT_API_BASE_URL:https://google.com}
 
 springdoc:
   swagger-ui:

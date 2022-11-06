@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OpenAPIClientImplConfig {
 
-    @Value("${external-resources.google.base-url}")
+    @Value("${external-resources.someapi.base-url}")
     private String externalResourceBasePath;
 
     @Bean

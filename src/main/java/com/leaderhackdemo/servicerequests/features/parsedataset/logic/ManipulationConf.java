@@ -16,6 +16,9 @@ public class ManipulationConf {
                                             .fieldNumberPosition(1)
                                             .fieldNamePosition(2)
                                             .typeToManipulate(ServiceEventRaw.class)
+                                            .constructObjectToManipulate(
+                                                    () -> ServiceEventRaw.builder().build()
+                                            )
                                         .build();
     }
 }

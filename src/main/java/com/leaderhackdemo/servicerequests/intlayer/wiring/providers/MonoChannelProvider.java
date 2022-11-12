@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -19,7 +20,7 @@ public class MonoChannelProvider {
     private MonoChannelProvider(){
 
     }
-    private Map<String, MonoChannel> requestWires = new HashMap<>();
+    private final Map<String, MonoChannel> requestWires = Collections.synchronizedMap(new HashMap<>());
 
     private final String unitName = "mono wiring manager";
     private final Logger logger = LoggerFactory.getLogger(unitName);

@@ -1,6 +1,7 @@
 package com.leaderhackdemo.servicerequests.intlayer.startup;
 
 import com.leaderhackdemo.servicerequests.intlayer.routing.IntlayerObjectRouter;
+import com.leaderhackdemo.servicerequests.intlayer.wiring.adapters.kafka.ReactorKafkaAdapter;
 import com.leaderhackdemo.servicerequests.intlayer.wiring.adapters.rest.outgoing.ApiClientAdapter;
 import com.leaderhackdemo.servicerequests.intlayer.wiring.adapters.rest.outgoing.model.adapter.ExternalResourceCallDefinition;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -25,9 +26,23 @@ public class AppReadyListener implements ApplicationListener<ApplicationReadyEve
             );
         }
 
+        ReactorKafkaAdapter kafkaAdapter = context.getBean(ReactorKafkaAdapter.class);
+
+        if (kafkaAdapter != null){
+            // collect the configuration items
+            // prepare inbound and outbound channels
+            kafkaAdapter.prepareForOperations();
+        }
+
         IntlayerObjectRouter objectRouter = context.getBean(IntlayerObjectRouter.class);
 
         objectRouter.start();
+
+        if (kafkaAdapter != null){
+            // when object router is operational
+            // start listening to topics and produce messages
+            kafkaAdapter.startOperations();
+        }
     }
 
 }

@@ -12,11 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.regex.Pattern;
 
 @Component
-
-//@EnableConfigurationProperties(value = DataSetFiles.class)
 @Slf4j
 public class ParseDatasetConf {
-
 
     @Autowired
     EventParseService eventParseService;

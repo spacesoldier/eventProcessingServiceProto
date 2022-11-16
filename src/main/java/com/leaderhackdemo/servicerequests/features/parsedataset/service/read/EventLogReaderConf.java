@@ -1,7 +1,6 @@
 package com.leaderhackdemo.servicerequests.features.parsedataset.service.read;
 
 import com.leaderhackdemo.servicerequests.features.parsedataset.model.DataSetFiles;
-import com.leaderhackdemo.servicerequests.features.parsedataset.service.model.ParseEventLogRequest;
 import com.leaderhackdemo.servicerequests.features.parsedataset.service.model.ReadEventLogRequest;
 import com.leaderhackdemo.servicerequests.intlayer.wiring.adapters.WiringAdapter;
 import lombok.extern.slf4j.Slf4j;

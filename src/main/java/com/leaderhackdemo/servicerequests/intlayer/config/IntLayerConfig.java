@@ -1,5 +1,6 @@
 package com.leaderhackdemo.servicerequests.intlayer.config;
 
+import com.leaderhackdemo.servicerequests.intlayer.tools.bandwidth.TokenBucketRateLimiter;
 import com.leaderhackdemo.servicerequests.intlayer.wiring.adapters.WiringAdapter;
 import com.leaderhackdemo.servicerequests.intlayer.wiring.adapters.rest.incoming.EndpointAdapter;
 import com.leaderhackdemo.servicerequests.intlayer.wiring.adapters.rest.outgoing.ApiClient;
@@ -19,27 +20,32 @@ public class IntLayerConfig {
     public EndpointAdapter initEndpointAdapter(){
 
         return EndpointAdapter.builder()
-                                .monoProvider(
-                                        rqId -> wiringAdapter.initSingleRequest(rqId)
-                                )
-                                .requestSink(
-                                        (rqId, payload) -> wiringAdapter.receiveSingleRequest(rqId,payload)
-                                )
+                .monoProvider(
+                        rqId -> wiringAdapter.initSingleRequest(rqId)
+                )
+                .requestSink(
+                        (rqId, payload) -> wiringAdapter.receiveSingleRequest(rqId,payload)
+                )
                 .build();
     }
 
     @Autowired
     private ApiClientImpl apiClientImplementation;
 
+    @Autowired
+    private TokenBucketRateLimiter tokenBucketRateLimiter;
 
     @Bean
     public ApiClientAdapter initApiClientAdapter(){
         return ApiClientAdapter.builder()
-                                        .errorHandlerSink(  apiClientImplementation.errorHandlerSink()  )
-                                        .routableFunctionSink(
-                                            (rqType, handler) -> wiringAdapter.registerFeature(rqType,handler)
-                                        )
-                                .build();
+                .errorHandlerSink(  apiClientImplementation.errorHandlerSink()  )
+                .routableFunctionSink(
+                        (rqType, handler) -> wiringAdapter.registerFeature(rqType,handler)
+                )
+                .bandwidthControllerInput(
+                        tokenBucketRateLimiter.takeControlOverTransmission()
+                )
+                .build();
 
     }
 
@@ -48,10 +54,10 @@ public class IntLayerConfig {
         return ApiClient.builder()
                 .paramToMVMapConverter(
                         queryParamConfig -> apiClientImplementation.parameterToMultiValueMap(
-                                                                                queryParamConfig.getCollectionFormat(),
-                                                                                queryParamConfig.getName(),
-                                                                                queryParamConfig.getValue()
-                                                                        )
+                                queryParamConfig.getCollectionFormat(),
+                                queryParamConfig.getName(),
+                                queryParamConfig.getValue()
+                        )
                 )
                 .headersToMediaTypeConverter(
                         accepts -> apiClientImplementation.selectHeaderAccept(accepts)
@@ -62,6 +68,6 @@ public class IntLayerConfig {
                 .apiCallClientProxy(
                         apiClientImplementation.invokeAPIfnWrapper()
                 )
-              .build();
+                .build();
     }
 }

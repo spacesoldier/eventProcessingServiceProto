@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.leaderhackdemo</groupId>
 	<artifactId>servicerequests</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>servicerequests</name>
 	<description>Processing the request stream demo</description>
 	<properties>
@@ -42,6 +42,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor.kafka</groupId>
+			<artifactId>reactor-kafka</artifactId>
 		</dependency>
 
 		<dependency>
@@ -89,6 +94,20 @@
 				<configuration>
 					<source>16</source>
 					<target>16</target>
+
+<!--					<annotationProcessorPaths>-->
+<!--						<annotationProcessorPath>-->
+<!--							<groupId>org.springframework.boot</groupId>-->
+<!--							<artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--							<version>${project.parent.version}</version>-->
+<!--						</annotationProcessorPath>-->
+<!--						<annotationProcessorPath>-->
+<!--							<groupId>org.projectlombok</groupId>-->
+<!--							<artifactId>lombok</artifactId>-->
+<!--							<version>${lombok.version}</version>-->
+<!--						</annotationProcessorPath>-->
+<!--					</annotationProcessorPaths>-->
+
 				</configuration>
 			</plugin>
 		</plugins>

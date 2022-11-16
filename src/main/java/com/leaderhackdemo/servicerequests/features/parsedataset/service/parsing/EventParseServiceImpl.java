@@ -39,9 +39,10 @@ public class EventParseServiceImpl implements EventParseService{
 
         log.info("[EVENT PARSER]: received new event "+ partsOfObject.get(0));
 
-        ServiceEventRaw result = (ServiceEventRaw) numeratedFieldsObjectManipulator.constructObjectFromList(
-                partsOfObject
-        );
+        ServiceEventRaw result = (ServiceEventRaw) numeratedFieldsObjectManipulator
+                                                            .constructObjectFromList(
+                                                                                        partsOfObject
+                                                                                    );
 
         return result;
     }
